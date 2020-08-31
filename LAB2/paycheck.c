@@ -1,8 +1,3 @@
-/*
-	ToDo
-	
-		- clean up and add more helpers in VS
-*/
 #include <stdio.h>
 
 /* Function Prototypes */
