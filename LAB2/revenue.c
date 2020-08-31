@@ -1,12 +1,3 @@
-/*
-	Bang this guy out
-
-	not working on cis-linux2, 
-	getting no output 
-
-	works on windows
-
-*/
 #include <stdio.h>
 
 int main(int argc, char* argv[]) {
