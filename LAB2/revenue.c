@@ -1,40 +1,38 @@
-#include <stdio.h>
+##include <stdio.h>
+#include <stdlib.h>
 
 /* Function Prototypes */
-int check_price_and_quantity();
-double get_discount();
-void print_total_price();
-
-/* Global Variables for revenue */
-int item_price, quantity;
-double discount;
+int check_price_and_quantity(int*, int*);
+double get_discount(int);
+void print_total_price(int, int, double);
 
 /* Main Function */
 int main(int argc, char* argv[]) {
-	if (check_price_and_quantity()) {
-		discount = get_discount();
-		print_total_price();
+	int item_price, quantity;
+	double discount;
+	if (check_price_and_quantity(&item_price, &quantity)) {
+		discount = get_discount(quantity);
+		print_total_price(item_price, quantity, discount);
 	}
-	return 0;
+	exit(0);
 }
 
 /* 
    Ask the user for price and quantity
    End the program if we get invalid input
 */
-int check_price_and_quantity() {
+int check_price_and_quantity(int *item_price, int *quantity) {
 	printf("Welcome To Temple Store\n");
 	printf("\n\tEnter item price: ");
-	scanf("%d", &item_price);
-	if (item_price <= 0) {
+	scanf("%d", item_price);
+	if (*item_price <= 0) {
 		printf("\n\tThis is not a valid item price.\n\tPlease run the program again.\n");
 		printf("\nThank you for using Temple Store\n");
 		return 0;
 	}
-
 	printf("\tEnter quantity: ");
-	scanf("%d", &quantity);
-	if (quantity <= 0) {
+	scanf("%d", quantity);
+	if (*quantity <= 0) {
 		printf("\n\tThis is not a valid quantity order.\n\tPlease run the program again.\n");
 		printf("\nThank you for using Temple Store\n");
 		return 0;
@@ -43,15 +41,15 @@ int check_price_and_quantity() {
 }
 
 /* Return the discount from the quantity purchased */
-double get_discount() {
-	if (quantity >= 50 || quantity <= 99)        return 0.1;
-	else if (quantity >= 100 || quantity <= 149) return 0.15;
-	else if (quantity >= 150)                    return 0.25;
+double get_discount(int quantity) {
+	if (quantity >= 50 && quantity <= 99)   return 0.1;
+	if (quantity >= 100 && quantity <= 149) return 0.15;
+	if (quantity >= 150)                     return 0.25;
 	return 0;
 }
 
 /* Print the total price of the purchase */
-void print_total_price() {
+void print_total_price(int item_price, int quantity, double discount) {
 	printf("\n\tThe item price is: $%d\n", item_price);
 	printf("\tThe order is: %d item(s)\n", quantity);
 	printf("\tThe cost is: $%d\n", item_price * quantity);
