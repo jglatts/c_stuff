@@ -1,41 +1,39 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 /* Function Prototypes */
-int print_welcome_msg();
-void print_paycheck();
-
-/* Global Variables For Paycheck */
-int emp_num, salary, weekly_time, otime_amount;
-double otime_pay, net_pay, reg_pay;
+int print_welcome_msg(int*, int*, int*);
+void print_paycheck(int, int, int);
 
 /* Main Function */
 int main(int argc, char* argv[]) {
-	if (print_welcome_msg()) {
-		print_paycheck();
+	int emp_num, salary, weekly_time, otime_amount;
+	if (print_welcome_msg(&emp_num, &salary, &weekly_time)) {
+		print_paycheck(emp_num, salary, weekly_time);
 	}
-	return 0;
+	exit(0);
 }
 
 /* Prints the welcome message to stdout */
-int print_welcome_msg() {
+int print_welcome_msg(int *emp_num, int *salary, int *weekly_time) {
 	printf("Welcome To \"TEMPLE HUMAN RESOURCES\"\n\n");
 	printf("\tEnter Employee Number: ");
-	scanf("%d", &emp_num);
-	if (emp_num <= 0) {
+	scanf("%d", emp_num);
+	if (*emp_num <= 0) {
 		printf("\n\tThis is not a valid empolyee number.\n\tPlease run the program again.\n");
 		printf("\nThank you for using \"TEMPLE HUMAN RESOURCES\"\n");	// this needs to be in quotes
 		return 0;
 	}
 	printf("\tEnter Hourly Salary: ");
-	scanf("%d", &salary);
-	if (salary <= 0) {
+	scanf("%d", salary);
+	if (*salary <= 0) {
 		printf("\n\tThis is not a valid hourly salary amount.\n\tPlease run the program again.\n");
 		printf("\nThank you for using \"TEMPLE HUMAN RESOURCES\"\n");
 		return 0;
 	}
 	printf("\tEnter Weekly Time: ");
-	scanf("%d", &weekly_time);
-	if (weekly_time <= 0) {
+	scanf("%d", weekly_time);
+	if (*weekly_time <= 0) {
 		printf("\n\tThis is not a weekly time.\n\tPlease run the program again.\n");
 		printf("\nThank you for using \"TEMPLE HUMAN RESOURCES\"\n");
 		return 0;
@@ -44,7 +42,8 @@ int print_welcome_msg() {
 }
 
 /* Prints the paycheck to stdout */
-void print_paycheck() {
+void print_paycheck(int emp_num, int salary, int weekly_time) {
+	double otime_pay, reg_pay; 
 	printf("\t=================================\n");
 	printf("\tEmployee Number: %d\n", emp_num);
 	printf("\tHourly Salary: $%d\n", salary);
@@ -58,6 +57,6 @@ void print_paycheck() {
 	printf("\tOvertime Pay: $%.1f\n", otime_pay);
 	printf("\tNet Pay: $%.1f\n", reg_pay + otime_pay);
 	printf("\t=================================\n"); 
-	printf("Thank you for using \"TEMPLE HUMAN RESOURCES\"\n");
+	printf("\nThank you for using \"TEMPLE HUMAN RESOURCES\"\n");
 }
 
