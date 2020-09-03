@@ -10,10 +10,12 @@ void print_total_price(int, int, double);
 int main(int argc, char* argv[]) {
 	int item_price, quantity;
 	double discount;
+	printf("Welcome To Temple Store\n");
 	if (check_price_and_quantity(&item_price, &quantity)) {
 		discount = get_discount(quantity);
 		print_total_price(item_price, quantity, discount);
 	}
+	printf("\nThank you for using Temple Store\n");
 	exit(0);
 }
 
@@ -22,19 +24,16 @@ int main(int argc, char* argv[]) {
    End the program if we get invalid input
 */
 int check_price_and_quantity(int *item_price, int *quantity) {
-	printf("Welcome To Temple Store\n");
 	printf("\n\tEnter item price: ");
 	scanf("%d", item_price);
 	if (*item_price <= 0) {
 		printf("\n\tThis is not a valid item price.\n\tPlease run the program again.\n");
-		printf("\nThank you for using Temple Store\n");
 		return 0;
 	}
 	printf("\tEnter quantity: ");
 	scanf("%d", quantity);
 	if (*quantity <= 0) {
 		printf("\n\tThis is not a valid quantity order.\n\tPlease run the program again.\n");
-		printf("\nThank you for using Temple Store\n");
 		return 0;
 	}
 	return 1;
@@ -44,7 +43,7 @@ int check_price_and_quantity(int *item_price, int *quantity) {
 double get_discount(int quantity) {
 	if (quantity >= 50 && quantity <= 99)   return 0.1;
 	if (quantity >= 100 && quantity <= 149) return 0.15;
-	if (quantity >= 150)                     return 0.25;
+	if (quantity >= 150)                    return 0.25;
 	return 0;
 }
 
@@ -56,5 +55,4 @@ void print_total_price(int item_price, int quantity, double discount) {
 	printf("\tThe discount is: %.1f%%\n", discount * 100);
 	printf("\tThe discount amount is: $%.1f\n", discount * (item_price * quantity));
 	printf("\tThe total is: $%.1f\n", (item_price * quantity) - (discount * (item_price * quantity)));
-	printf("\nThank you for using Temple Store\n");
 }
