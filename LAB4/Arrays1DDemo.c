@@ -59,7 +59,7 @@ void fill_array(int arr[], int size, int low, int high) {
 	printf("\n......Filling Array......\n");
 	for (int i = 0; i < size; ++i) {
 		int val = (rand() % high) + 1;
-		while (val <= low) val = (rand() % high) + 1;
+		while (val < low) val = (rand() % high) + 1;
 		arr[i] = val;
 	}
 	print_array(arr, size);	
