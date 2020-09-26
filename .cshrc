@@ -16,7 +16,7 @@ alias labs ls -d *LAB*
 set history = 1000
 set savehist = 400
 set ignoreeof
-set prompt="%m:%~>"
+#set prompt="%m:%~>"
 # Colors!
 set     red="%{\033[1;31m%}"
 set   green="%{\033[0;32m%}"
