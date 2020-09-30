@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
+
+/* Macros for colored output */
+#define RED    "\033[1;31m"
+#define GREEN  "\033[0;32m"
+#define RESET  "\033[0m"
 
 /* Function Prototypes */
 int  get_array_size();
@@ -8,10 +14,11 @@ int  get_low_limit();
 int  get_high_limit();
 int  find_sequence(int[], int);
 void print_array(int[], int);
-void print_array_color(int[], int, int, int);
+void print_array_color(int[], int, int, int, bool);
 void fill_array(int[], int, int, int);
 void find_with_range(int[], int);
 void reverse_array(int[], int);
+void reverse_in_range(int[], int);
 void print_sequence(int[], int);
 
 /* Main Function */
@@ -24,6 +31,7 @@ int main() {
         fill_array(arr, size, low, high);
         find_with_range(arr, size);
         reverse_array(arr, size);
+        reverse_in_range(arr, size);
         print_sequence(arr, size);
         return 0;
 }
@@ -56,35 +64,35 @@ int get_high_limit() {
 void print_array(int arr[], int size) {
         size_t count = 1;
         for (int i = 0; i < size; ++i, ++count) {
-                printf("\033[0;32m");
-                printf("%-10d", arr[i]);
-                printf("\033[0m");
+                printf(GREEN);
+                printf("%-6d", arr[i]);
+                printf(RESET);
                 if (count % 10 == 0) puts("");
         }
 }
 
 /* Print the array with color for the given low and high indices */
-void print_array_color(int arr[], int size, int low, int high) {
+void print_array_color(int arr[], int size, int low, int high, bool max_check) {
         size_t count = 1;
         int max = arr[low];
         for (int i = 0; i < size; ++i, ++count) {
                 if (i >= low && i <= high) {
                         if (arr[i] > max) max = arr[i];
-                        printf("\033[1;31m");
-                        printf("%-10d", arr[i]);
-                        printf("\033[0m");
+                        printf(RED);
+                        printf("%-6d", arr[i]);
+                        printf(RESET);
                 }
                 else {
-                          printf("\033[0;32m");
-                          printf("%-10d", arr[i]);
-                          printf("\033[0m");
+                          printf(GREEN);
+                          printf("%-6d", arr[i]);
+                          printf(RESET);
                 }
                 if (count % 10 == 0) puts("");
         }
-        printf("Max: %d\n", max);
+        if (max_check) printf("Max: %d\n", max);
 }
 
-/* Fill the array based  n the l w and high limits */
+/* Fill the array based on the low and high limits */
 void fill_array(int arr[], int size, int low, int high) {
         int count = 1;
         puts("\n......Filling Array......");
@@ -106,7 +114,7 @@ void find_with_range(int arr[], int size) {
         max = arr[low_index];
         printf("Please Enter the Index High Limit: ");
         scanf("%d", &high_index);
-        print_array_color(arr, size, low_index, high_index);
+        print_array_color(arr, size, low_index, high_index, true);
 }
 
 /* Reverse the given array */
@@ -118,10 +126,34 @@ void reverse_array(int arr[], int size) {
                 rev_arr[start] = arr[end];
                 rev_arr[end--] = arr[start++];
         }
-        printf("Original Array: \n");
+        puts("Original Array: ");
         print_array(arr, size);
-        printf("\nReversed Array: \n");
+        puts("Reversed Array: ");
         print_array(rev_arr, size);
+}
+
+/* Reverse the array between two indices */
+void reverse_in_range(int arr[], int size) {
+        int low_index, high_index, low, high;
+        int rev_arr[size];
+        puts("\n......Reverse Array in Range......");
+        printf("Please Enter Index Low Limit: ");
+        scanf("%d", &low_index);
+        printf("Please Enter Index High Limit: ");
+        scanf("%d", &high_index);
+        puts("\nOriginal Array");
+        print_array(arr, size);
+        printf("Reversed between %d and %d\n", low_index, high_index);
+        // fill the new array
+        for (int i = 0; i < size; ++i) rev_arr[i] = arr[i];
+        //swap the elements
+        low = low_index;
+        high = high_index;
+        while (low_index < high_index) {
+                rev_arr[low_index] = arr[high_index];
+                rev_arr[high_index--] = arr[low_index++];
+        }
+        print_array_color(rev_arr, size, low, high, false);
 }
 
 /* Print the index if the seqeuence is found */
