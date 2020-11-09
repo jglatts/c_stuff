@@ -6,11 +6,11 @@
 void print_start_race();
 void start_race();
 void print_race(int, int);
-void print_winner(int, int, float);
+void print_winner(int, int);
 void check_player_move(int*, int);
 void check_for_winner(int*, int*);
-int get_tort_move(int);
-int get_hare_move(int);
+int  get_tort_move(int);
+int  get_hare_move(int);
 
 int main() {
     srand((unsigned)time(NULL));
@@ -26,20 +26,17 @@ void print_start_race() {
 }
 
 void start_race() {
-    int tort_index = 1, hare_index = 1;
-    int old_tort_index = -1;
-    clock_t time = clock();
+    int tort_index = 1, hare_index = 1, old_tort_index = 1;
     while (tort_index < 70 && hare_index < 70) {
         int tort_move = get_tort_move((rand() % 10) + 1);
         int hare_move = get_hare_move((rand() % 10) + 1);
         check_player_move(&tort_index, tort_move);
         check_player_move(&hare_index, hare_move);
         check_for_winner(&tort_index, &hare_index);
-        if (old_tort_index != tort_index) print_race(tort_index, hare_index);
-        old_tort_index = tort_index;
+        print_race(tort_index, hare_index);
         sleep(1);
     }
-    print_winner(tort_index, hare_index, clock() - time);
+    print_winner(tort_index, hare_index);
 }
 
 void check_player_move(int* player_index, int move) {
@@ -53,7 +50,8 @@ void check_for_winner(int* tort, int* hare) {
 }
 
 void print_race(int tort_index, int hare_index) {
-    for (int i = 1; i <= 70; ++i) {
+    int max = (tort_index >= hare_index) ? tort_index : hare_index;
+    for (int i = 1; i <= max; ++i) {
         if (tort_index == hare_index && i == tort_index) printf("OUCH!!!!");
         else if (i == tort_index) printf("T");
         else if (i == hare_index) printf("H");
@@ -62,10 +60,9 @@ void print_race(int tort_index, int hare_index) {
     puts("");
 }
 
-void print_winner(int tort, int hare, float elapsed_time) {
-    if   (tort == hare) puts("\nTorteise Wins!!! YAY!!!");
-    else (tort == 70) ? puts("\nTorteise Wins!!! YAY!!!") : puts("\nHare Wins. Yuch");
-    printf("This race took %f seconds to execute\n", ((double)elapsed_time) / CLOCKS_PER_SEC);
+void print_winner(int tort, int hare) {
+    if (tort == hare)   puts("\nTortoise Wins!!! YAY!!!");
+    else (tort == 70) ? puts("\nTortoise Wins!!! YAY!!!") : puts("\nHare Wins. Yuch");
 }
 
 int get_tort_move(int i) {
