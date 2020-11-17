@@ -6,77 +6,61 @@
 #include <time.h>
 
 //functions
-void * upperLower(const char * s);
-int convertStrtoInt(const char *s1, const char *s2, const char *s3, const char *s4);
+void* upperLower(const char * s);
+int   convertStrtoInt(const char *s1, const char *s2, const char *s3, const char *s4);
 float convertStrtoFloat(const char *s1, const char *s2, const char *s3, const char *s4);
-void compareStr(const char *s1, const char *s2);
-void comparePartialStr(const char *s1, const char *s2, int n);
-void randomize(void);
-int tokenizeTelNum(char *num);
-void reverse(char *text);
-int countSubstr (char * line, char * sub);
-int countChar (char * line, char c);
-int countWords(char *string);
-void countAlpha(char *string);
-void startsWithB(char *string[]);
-void endsWithed(char *string[]);
+void  compareStr(const char *s1, const char *s2);
+void  comparePartialStr(const char *s1, const char *s2, int n);
+void  randomize(void);
+int   tokenizeTelNum(char *num);
+void  reverse(char *text);
+int   countSubstr (char * line, char * sub);
+int   countChar (char * line, char c);
+int   countWords(char *string);
+void  countAlpha(char *string);
+void  startsWithB(char *string[]);
+void  endsWithed(char *string[]);
 
 int main() {
-
     //random generator
-    srand(time(NULL));
-
+    srand((unsigned)time(NULL));
     //test for upperLower
     const char test[] = "This iS A Test";
     upperLower(test);
-
     //test for convertStrtoInt
     printf("\n\nThe sum of 4 strings is: %d", convertStrtoInt("3", "4", "5", "6"));
-
     //test for convertStrtoFloat
     printf("\n\nThe sum of 4 strings is: %.2f", convertStrtoFloat("3.5", "4.5", "5.5", "6.5"));
-
     //test for compareStr
     compareStr("Test1", "Test2");
-
     //test for comparePartialStr
     comparePartialStr("Test1", "Test2", 4);
-
     //test for randomize
     randomize();
-
     //test for tokenize number
     char str[] = "(267) 436-6281";
     tokenizeTelNum(str);
-
     //test for reverse
     char line[] = "Hello world";
     reverse(line);
-
     //test for countSubstr
     char *line1 = "helloworldworld";
     char *substring = "world";
     printf("\n\nNumber of Substrings %s inside %s: %d\n", substring, line1, countSubstr(line1, substring));
-
     //test for countChar
     char w = 'w';
     printf("\nNumber of character %c inside %s: %d\n", w, line1, countChar(line1, w));
-
     //test for countAlpha
     char str1[] = "Hello it's me.";
     countAlpha(str1);
-
     //test for countWords
     char countstring[] = "hello world!";
     printf("\n\nNumber of words in string is: %d\n", countWords(countstring));
-
     //test for startsWithB
     char *series[] = {"bored", "hello", "Brother", "manual", "bothered"};
     startsWithB(series);
-
     //test for endsWithed
     endsWithed(series);
-
 }
 
 // 1.(Displaying Strings in Uppercase and Lowercase)
@@ -116,22 +100,46 @@ float convertStrtoFloat(const char *s1, const char *s2, const char *s3, const ch
 
 //4.(Comparing Strings)
 void compareStr(const char *s1, const char *s2) {
-        // double check this one
-        if      (strcmp(s1, s2) < 0) printf("\n%s is less than %s\n", s1, s2);
-        else if (strcmp(s1, s2) > 0) printf("\n%s is greater than %s\n", s1, s2);
-        else                         printf("\n%s is equal to %s\n", s1, s2);
+    if (strcmp(s1, s2) < 0)      
+        printf("\n%s is less than %s\n", s1, s2);
+    else if (strcmp(s1, s2) > 0) 
+        printf("\n%s is greater than %s\n", s1, s2);
+    else                         
+        printf("\n%s is equal to %s\n", s1, s2);
 }
 
 //5.(Comparing Portions of Strings)
 void comparePartialStr(const char *s1, const char *s2, int n) {
-
-
+    char one[n], two[n];
+    for (int i = 0; i < n; ++i) {
+        one[i] = s1[i];
+        two[i] = s2[i];
+    }
+    if (strncmp(s1, s2, n) < 0)
+        printf("\n%s is less than %s\n\n", one, two);
+    else if (strncmp(s1, s2, n) > 0)
+        printf("\n%s is greater than %s\n\n", one, two);
+    else
+        printf("\n%s is equal to %s\n\n", one, two);
 }
 
 //6.(Random Sentences)
 void randomize(void) {
-
-
+    char* articles[] = {"the ", "a ", "one ", "some ", "any "};
+    char* nouns[] = {"boy ", "girl ", "dog ", "town ", "car "};
+    char* verbs[] = {"drove ", "jumped ", "ran ", "walked ", "skipped "};
+    char* prepositions[] = {"to ", "from ", "over ", "under ", "on "};
+    // get the proper format in
+    for (int i = 0; i < 20; ++i) {
+        char rand_sentance[110];
+        strcpy(rand_sentance, articles[rand() % 5]);
+        strcat(rand_sentance, nouns[rand() % 5]);
+        strcat(rand_sentance, verbs[rand() %  5]);
+        strcat(rand_sentance, prepositions[rand() % 5]);
+        strcat(rand_sentance, articles[rand() % 5]);
+        strcat(rand_sentance, nouns[rand() % 5]);
+        printf("%s\n", rand_sentance);
+    }
 }
 
 //7.(Tokenizing Telephone Numbers)
