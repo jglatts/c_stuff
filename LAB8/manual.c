@@ -100,11 +100,11 @@ float convertStrtoFloat(const char *s1, const char *s2, const char *s3, const ch
 
 //4.(Comparing Strings)
 void compareStr(const char *s1, const char *s2) {
-    if (strcmp(s1, s2) < 0)      
+    if (strcmp(s1, s2) < 0)
         printf("\n%s is less than %s\n", s1, s2);
-    else if (strcmp(s1, s2) > 0) 
+    else if (strcmp(s1, s2) > 0)
         printf("\n%s is greater than %s\n", s1, s2);
-    else                         
+    else
         printf("\n%s is equal to %s\n", s1, s2);
 }
 
@@ -144,8 +144,13 @@ void randomize(void) {
 
 //7.(Tokenizing Telephone Numbers)
 int tokenizeTelNum(char *num) {
-
-
+    char* num_ptr, area_code, three_dig, four_dig;
+    num_ptr = strtok(++num, ") ");
+    while (num_ptr != NULL) {
+        printf ("%s\n",num_ptr);
+        num_ptr = strtok(NULL, "-");
+    }
+    return 0;
 }
 
 //8.(Displaying a Sentence with Its Words Reversed)
