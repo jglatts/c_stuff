@@ -14,6 +14,7 @@ void  comparePartialStr(const char *s1, const char *s2, int n);
 void  randomize(void);
 int   tokenizeTelNum(char *num);
 void  reverse(char *text);
+void  removeSpaces(char *str);
 int   countSubstr (char * line, char * sub);
 int   countChar (char * line, char c);
 int   countWords(char *string);
@@ -44,7 +45,7 @@ int main() {
     char line[] = "Hello world";
     reverse(line);
     //test for countSubstr
-    char *line1 = "helloworldworld";
+    char *line1 = "helloworldworldworld";
     char *substring = "world";
     printf("\n\nNumber of Substrings %s inside %s: %d\n", substring, line1, countSubstr(line1, substring));
     //test for countChar
@@ -65,19 +66,19 @@ int main() {
 
 // 1.(Displaying Strings in Uppercase and Lowercase)
 void * upperLower (const char * s) {
-        char str[100];
-        strcpy(str, s);
-        // display string in upper case
-        for (int i = 0; str[i] != '\0'; ++i) {
-                str[i] = toupper(str[i]);
-                printf("%c", str[i]);
-        }
-        // display string in lower case
-        puts("");
-        for (int j = 0; str[j] != '\0'; ++j) {
-                str[j] = tolower(str[j]);
-                printf("%c", str[j]);
-        }
+    char str[100];
+    strcpy(str, s);
+    // display string in upper case
+    for (int i = 0; str[i] != '\0'; ++i) {
+        str[i] = toupper(str[i]);
+        printf("%c", str[i]);
+    }
+    // display string in lower case
+    puts("");
+    for (int j = 0; str[j] != '\0'; ++j) {
+        str[j] = tolower(str[j]);
+        printf("%c", str[j]);
+    }
 }
 
 // 2.(Converting Strings to Integers for Calculations)
@@ -144,31 +145,62 @@ void randomize(void) {
 
 //7.(Tokenizing Telephone Numbers)
 int tokenizeTelNum(char *num) {
-    char* num_ptr, area_code, three_dig, four_dig;
-    num_ptr = strtok(++num, ") ");
+    char* num_ptr;
+    char* tokens[3];
+    char  number[15];
+    int i = 0, area_code;
+    num_ptr = strtok(++num, ")");
     while (num_ptr != NULL) {
-        printf ("%s\n",num_ptr);
+        tokens[i++] = num_ptr;
         num_ptr = strtok(NULL, "-");
     }
+    strcpy(number, tokens[0]);
+    strcat(number, tokens[1]);
+    strcat(number, tokens[2]);
+    removeSpaces(number);
+    area_code = atoi(tokens[0]);
+    printf("\nArea Code: %d", area_code);
+    printf("\nPhone Number: %s\n", number);
     return 0;
+}
+
+// Remove spaces from a given string
+void removeSpaces(char* str) {
+    int count = 0;
+    for (int i = 0; i < str[i]; ++i) {
+        if (str[i] != ' ') str[count++] = str[i];
+    }
+    str[count] = '\0';
 }
 
 //8.(Displaying a Sentence with Its Words Reversed)
 void reverse(char *text) {
-
-
+    char* tokens[100];
+    char* str = strtok(text, " ");
+    int count = 0;
+    while (str) {
+        tokens[count++] = str;
+        str = strtok(NULL, " ");
+    }
+    puts("");
+    for (int i = count-1; i >= 0; --i) printf("%s ", tokens[i]);
+    puts("");
 }
 
 //9.(Counting the Occurrences of a Substring)
 int countSubstr (char * line, char * sub) {
-
-
+    char* ret_str = strstr(line, sub);
+    return (int)strlen(ret_str) / (int)strlen(sub);
 }
 
 //10.(Counting the Occurrences of a Character)
 int countChar (char *line, char c) {
-
-
+    char* ret_str = strchr(line, c);
+    int i = 0, count = 0;
+    while (ret_str[i] != '\0' && ret_str != NULL) {
+       if (ret_str[i++] == c) count++;
+    }
+    return count;
 }
 
 
