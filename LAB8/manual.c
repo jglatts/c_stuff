@@ -216,13 +216,9 @@ void countAlpha(char *string) {
             if (string[j] == alpha[i]) alpha_count[i]++;
         }
     }
-    for(int j = 0; j < sizeof(alpha)/sizeof(char); ++j) {
-      printf("%c ", alpha[j]);
-    }
+    for (int j = 0; j < sizeof(alpha)/sizeof(char); ++j) printf("%c ", alpha[j]);
     puts("");
-    for (int x = 0; x < sizeof(alpha_count)/sizeof(int); ++x) {
-      printf("%d ", alpha_count[x]);
-    }
+    for (int x = 0; x < sizeof(alpha_count)/sizeof(int); ++x) printf("%d ", alpha_count[x]);
 }
 
 
@@ -240,9 +236,20 @@ int countWords(char *string) {
 
 //13.(Strings Starting with "b")
 void startsWithB(char *string[]) {
-
-
-
+   char* temp = string[0];
+   int index = 0, count = 0;
+   while (temp != NULL) temp = string[index++];
+   for (int i = 0; i <= sizeof(index)/sizeof(char); ++i) {
+        char* str = string[i];
+        printf("\nLooking at %s", str);
+        for (int j = 0; str[j] != '\0'; ++j) {
+                if (str[j] == 'b') {
+                        printf("\n%c", str[j]);
+                        count++;
+                }
+        }
+   }
+   printf("\nCount of strings with 'b' is %d\n", count);
 }
 
 //14.(Strings Ending with "ed")
