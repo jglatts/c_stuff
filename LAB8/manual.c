@@ -206,14 +206,36 @@ int countChar (char *line, char c) {
 
 //11.(Counting the Letters of the Alphabet in a String)
 void countAlpha(char *string) {
-
-
+    char alpha[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+    int alpha_count[sizeof(alpha)/sizeof(char)];
+    printf("\nCount letters of alphabet in %s\n", string);
+    for (int i = 0; i < sizeof(alpha)/sizeof(char); ++i) {
+        alpha_count[i] = 0;
+        for (int j = 0; string[j] != '\0'; ++j) {
+            string[j] = toupper(string[j]);
+            if (string[j] == alpha[i]) alpha_count[i]++;
+        }
+    }
+    for(int j = 0; j < sizeof(alpha)/sizeof(char); ++j) {
+      printf("%c ", alpha[j]);
+    }
+    puts("");
+    for (int x = 0; x < sizeof(alpha_count)/sizeof(int); ++x) {
+      printf("%d ", alpha_count[x]);
+    }
 }
+
+
 
 //12.(Counting the Number of Words in a String)
 int countWords(char *string) {
-
-
+    char* str = strtok(string, " ");
+    int count = 0;
+    while (str) {
+        count++;
+        str = strtok(NULL, " ");
+    }
+    return count;
 }
 
 //13.(Strings Starting with "b")
