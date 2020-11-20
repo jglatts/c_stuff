@@ -111,17 +111,12 @@ void compareStr(const char *s1, const char *s2) {
 
 //5.(Comparing Portions of Strings)
 void comparePartialStr(const char *s1, const char *s2, int n) {
-    char one[n], two[n];
-    for (int i = 0; i < n; ++i) {
-        one[i] = s1[i];
-        two[i] = s2[i];
-    }
     if (strncmp(s1, s2, n) < 0)
-        printf("\n%s is less than %s\n\n", one, two);
+        printf("\n%s is less than %s\n\n", s1, s2);
     else if (strncmp(s1, s2, n) > 0)
-        printf("\n%s is greater than %s\n\n", one, two);
+        printf("\n%s is greater than %s\n\n", s1, s2);
     else
-        printf("\n%s is equal to %s\n\n", one, two);
+        printf("\n%s is equal to %s\n\n", s1, s2);
 }
 
 //6.(Random Sentences)
