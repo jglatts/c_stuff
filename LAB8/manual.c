@@ -241,19 +241,22 @@ void startsWithB(char *string[]) {
    while (temp != NULL) temp = string[index++];
    for (int i = 0; i <= sizeof(index)/sizeof(char); ++i) {
         char* str = string[i];
-        printf("\nLooking at %s", str);
-        for (int j = 0; str[j] != '\0'; ++j) {
-                if (str[j] == 'b') {
-                        printf("\n%c", str[j]);
-                        count++;
-                }
-        }
+        //printf("\nLooking at %s", str);
+        if (str[0] == 'b') count++;
    }
-   printf("\nCount of strings with 'b' is %d\n", count);
+   printf("\nCount of strings that start with 'b' is %d\n", count);
 }
 
 //14.(Strings Ending with "ed")
 void endsWithed(char *string[]) {
-
-
+   char* temp = string[0];
+   int index = 0, count = 0;
+   while (temp != NULL) temp = string[index++];
+   for (int i = 0; i <= sizeof(index)/sizeof(char); ++i) {
+        char* str = string[i];
+        size_t len = strlen(str);
+        //printf("\nLooking at %s", str);
+        if (str[len-2] == 'e' && str[len-1] == 'd') count++;
+   }
+   printf("\nCount of strings that end with 'ed' is %d\n", count);
 }
