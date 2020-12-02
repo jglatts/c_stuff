@@ -11,10 +11,5 @@ void rm_right_space(char* s) {
                         break;
                 }
         }
-	/*
-        for (int i = first_char_index; s[i] != '\0'; ++i) {
-                if (count < len - first_char_index) s[count++] = s[i];
-        }
-	*/
         s[first_space_index] = '\0';
 }
