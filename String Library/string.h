@@ -1,5 +1,5 @@
-#ifndef string_h
-#define string_h
+#ifndef STRING_H
+#define STRING_H
 
 // Library Function Prototypes
 int     all_letters(char *s);
@@ -27,4 +27,4 @@ char*   replace(char *s, char *pat, char *rep);
 char*   str_connect(char **strs, int n, char c);
 char**  str_chop_all(char *s, char c);
 
-#endif // string_h
+#endif // STRING_H

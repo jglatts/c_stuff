@@ -24,6 +24,7 @@ void test_repeat();
 void test_replace();
 void test_str_connect();
 void test_rm_empties();
+void test_str_chop_all();
 
 int main() {
 	test_all_letters();
@@ -48,12 +49,13 @@ int main() {
 	test_replace();
 	test_str_connect();
 	test_rm_empties();
+	test_str_chop_all();
 	return 0;
 }
 
 void test_all_letters() {
       char* str = "Hello World";
-      puts("Test for all_letters()");
+      puts("1) Test for all_letters()");
       if (all_letters(str)) {
 		printf("%s\n", str);
   		puts("All characters in string were letters\n");
@@ -62,7 +64,7 @@ void test_all_letters() {
 }
 
 void test_num_in_range() {
-	puts("Test for num_in_range()");
+	puts("2) Test for num_in_range()");
 	char* s = "yellow";
 	char b = 'f', t = 'm';
 	int num_range = num_in_range("yellow", 'f', 'm');
@@ -72,7 +74,7 @@ void test_num_in_range() {
 }
 
 void test_diff() {
-	puts("\nTest for diff()");
+	puts("\n3) Test for diff()");
 	char* s1 = "Book";
 	char* s2 = "Back";
 	int d = diff(s1, s2);
@@ -82,7 +84,7 @@ void test_diff() {
 
 void test_shorten() {
 	char s[] = "hello world";
-	puts("\nTest for shorten()");
+	puts("\n4) Test for shorten()");
 	puts("Before:");
 	printf("%s\n", s);
         shorten(s, 5);
@@ -90,7 +92,7 @@ void test_shorten() {
 }
 
 void test_len_diff() {
-        puts("\nTest for len_diff()");
+        puts("\n5) Test for len_diff()");
         char* s1 = "Philadelphia";
         char* s2 = "Hello";
         printf("The strings are %s and %s\n", s1, s2);
@@ -99,7 +101,7 @@ void test_len_diff() {
 
 void test_rm_left_space() {
 	char s[] = "     Hello";
-	puts("\nTest for rm_left_space()");
+	puts("\n6) Test for rm_left_space()");
 	printf("String is %s\n", s);
 	rm_left_space(s);
 	printf("String with left white-space removed is %s\n", s);
@@ -107,7 +109,7 @@ void test_rm_left_space() {
 
 void test_rm_right_space() {
         char s[] = "Hello    ";
-        puts("\nTest for rm_right_space()");
+        puts("\n7) Test for rm_right_space()");
         printf("String is %s\n", s);
         rm_right_space(s);
         printf("String with right white-space removed is %s\n", s);
@@ -115,7 +117,7 @@ void test_rm_right_space() {
 
 void test_rm_space() {
         char s[] = "   Hello    ";
-        puts("\nTest for rm_space()");
+        puts("\n8) Test for rm_space()");
         printf("String is %s\n", s);
         rm_space(s);
         printf("String with white-space removed is %s\n", s);
@@ -124,7 +126,7 @@ void test_rm_space() {
 void test_find() {
         char s[] = "Hello";
 	char s1[]  = "l";
-        puts("\nTest for find()");
+        puts("\n9) Test for find()");
         printf("Looking for %s in %s\n", s1, s);
         int i = find(s, s1);
         printf("Index of the first occurrence of %s is %d\n", s1, i);
@@ -133,7 +135,7 @@ void test_find() {
 void test_ptr_to() {
         char s[] = "Hello";
         char s1[]  = "l";
-        puts("\nTest for ptr_to()");
+        puts("\n10) Test for ptr_to()");
         printf("Looking for %s in %s\n", s1, s);
         char* i = ptr_to(s, s1);
         printf("Pointer to fist occurence of %s is %p\n", s1, i);
@@ -142,7 +144,7 @@ void test_ptr_to() {
 void test_is_empty() {
         //char s[] = "Hello";
         char s[] = "  ";
-	puts("\nTest for is_empty()");
+	puts("\n11) Test for is_empty()");
         if (!is_empty(s)) printf("The string %s is not empty\n", s);
 	else printf("The string is empty\n");
 }
@@ -150,14 +152,14 @@ void test_is_empty() {
 void test_str_zip() {
         char s1[] = "Temple";
         char s2[] = "Hello";
-        puts("\nTest for str_zip()");
+        puts("\n12) Test for str_zip()");
         printf("The original strings are %s and %s\n", s1, s2);
         printf("The zipped strings is %s\n", str_zip(s1, s2));
 }
 
 void test_capitalize() {
         char s[] = "hello world";
-        puts("\nTest for capitalize()");
+        puts("\n13) Test for capitalize()");
         printf("String before is %s\n", s);
         capitalize(s);
         printf("String after is %s\n", s);
@@ -166,7 +168,7 @@ void test_capitalize() {
 void test_strcmp_ign_case() {
         char s1[] = "hello";
 	char s2[] = "Hello";
-        puts("\nTest for strcmp_ign_case()");
+        puts("\n14) Test for strcmp_ign_case()");
         printf("Strings are %s and %s\n", s1, s2);
         // add a better test print
         printf("The result is %d\n", strcmp_ign_case(s1, s2));
@@ -174,7 +176,7 @@ void test_strcmp_ign_case() {
 
 void test_take_last() {
         char s[] = "hello";
-        puts("\nTest for take_last()");
+        puts("\n15) Test for take_last()");
         printf("String before is %s\n", s);
         take_last(s, 3);
         printf("String after is %s\n", s);
@@ -182,7 +184,7 @@ void test_take_last() {
 
 void test_dedup() {
         char s[] = "hellllo";
-        puts("\nTest for dedup()");
+        puts("\n16) Test for dedup()");
         printf("String before is %s\n", s);
         printf("String after is %s\n", dedup(s));
 }
@@ -191,7 +193,7 @@ void test_dedup() {
 void test_pad() {
 	// add quotes here to see padding	 
         char s[] = "hello";
-        puts("\nTest for pad()");
+        puts("\n17) Test for pad()");
         printf("String before is '");
 	for (int i = 0; s[i] != '\0'; ++i) printf("%c", s[i]);
 	printf("'\n");
@@ -205,7 +207,7 @@ void test_pad() {
 void test_ends_with_ignore_case() {
 	char s1[] = "Coding";
 	char s2[] = "ing";
-	puts("\nTesting for ends_with_ignore_case()");
+	puts("\n18) Testing for ends_with_ignore_case()");
 	printf("The strings are %s and %s\n", s1, s2);
 	if (ends_with_ignore_case(s1, s2)) printf("The string %s is a suffix of %s\n", s2, s1);
 	else ("The string %s is not a suffix of %s\n", s2, s1);
@@ -213,7 +215,7 @@ void test_ends_with_ignore_case() {
 
 void test_repeat() {
 	char s[] = "hello";
-	puts("\nTesting for repeat()");
+	puts("\n19) Testing for repeat()");
 	printf("The original string is %s\n", s);
 	printf("The repeated string is %s\n", repeat(s, 5, '-'));
 }
@@ -222,14 +224,14 @@ void test_replace() {
 	char s1[] = "Steph is the X";
         char s2[] = "X";
 	char s3[] = "best";
-        puts("\nTesting for replace()");
+        puts("\n20) Testing for replace()");
         printf("The strings are %s, %s, and %s\n", s1, s2, s3);
 	printf("The new replaced string is %s\n", replace(s1, s2, s3));
 }
 
 void test_str_connect() {
 	char* s[4] = {"Hello", "World", "Hello", "World"};
-	puts("\nTesting for str_connect()");
+	puts("\n21) Testing for str_connect()");
 	printf("The strings are ");
 	for (int i = 0; i < 4 ; ++i) printf("%s ", s[i]);
 	printf("\nThe connected string is %s\n", str_connect(s, 4, '-'));
@@ -238,7 +240,7 @@ void test_str_connect() {
 void test_rm_empties() {
         char* s[6] = {"Hello", "World", " ", " ", "Steph", NULL};
         //char** s_ptr = s;
-	puts("\nTesting for rm_empties()");
+	puts("\n22) Testing for rm_empties()");
         printf("The strings are ");
         for (int i = 0; i < 5; ++i) printf("%s ", s[i]);
         rm_empties(s);
@@ -247,5 +249,15 @@ void test_rm_empties() {
 	puts(" ");
 }
 
-
+void test_str_chop_all() {
+	char s[] = "Hello/World/Hello/Hello/World";
+	puts("\n23) Testing str_chop_all()");
+	printf("Original String %s\n", s);
+	int arr_len = 0;
+	char** s_ptr = str_chop_all(s, '/');
+	while(s_ptr[arr_len]) arr_len++;
+	for (int i = 0; i < arr_len; ++i) {
+		printf("%s\n", s_ptr[i]);
+	}
+}
 
