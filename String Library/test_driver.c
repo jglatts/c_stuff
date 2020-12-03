@@ -1,4 +1,5 @@
 #include "string.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 void test_all_letters();
@@ -17,9 +18,12 @@ void test_capitalize();
 void test_strcmp_ign_case();
 void test_take_last();
 void test_dedup();
-void test_pad();  // needs source file
+void test_pad();  
 void test_ends_with_ignore_case();
 void test_repeat();
+void test_replace();
+void test_str_connect();
+void test_rm_empties();
 
 int main() {
 	test_all_letters();
@@ -38,9 +42,12 @@ int main() {
 	test_strcmp_ign_case();
 	test_take_last();
 	test_dedup();
-	//test_pad();
+	test_pad();
 	test_ends_with_ignore_case();
 	test_repeat();
+	test_replace();
+	test_str_connect();
+	test_rm_empties();
 	return 0;
 }
 
@@ -74,13 +81,12 @@ void test_diff() {
 }
 
 void test_shorten() {
-	char s[] = "hello";
+	char s[] = "hello world";
 	puts("\nTest for shorten()");
 	puts("Before:");
 	printf("%s\n", s);
-        puts("NEEDS TO BE FIXED....SEG FAULT AT SHORTEN()!!!");
-	//shorten(s, 3);
-	//printf("%s\n", s);
+        shorten(s, 5);
+	printf("%s\n", s);
 }
 
 void test_len_diff() {
@@ -181,11 +187,20 @@ void test_dedup() {
         printf("String after is %s\n", dedup(s));
 }
 
-/*
-void test_pad() {
 
+void test_pad() {
+	// add quotes here to see padding	 
+        char s[] = "hello";
+        puts("\nTest for pad()");
+        printf("String before is '");
+	for (int i = 0; s[i] != '\0'; ++i) printf("%c", s[i]);
+	printf("'\n");
+        printf("String after is '");
+	char *s1 = pad(s, 8);
+	for (int i = 0; s1[i] != '\0'; ++i) printf("%c", s1[i]);	
+	printf("'\n");
 }
-*/
+
 
 void test_ends_with_ignore_case() {
 	char s1[] = "Coding";
@@ -202,4 +217,35 @@ void test_repeat() {
 	printf("The original string is %s\n", s);
 	printf("The repeated string is %s\n", repeat(s, 5, '-'));
 }
+
+void test_replace() {
+	char s1[] = "Steph is the X";
+        char s2[] = "X";
+	char s3[] = "best";
+        puts("\nTesting for replace()");
+        printf("The strings are %s, %s, and %s\n", s1, s2, s3);
+	printf("The new replaced string is %s\n", replace(s1, s2, s3));
+}
+
+void test_str_connect() {
+	char* s[4] = {"Hello", "World", "Hello", "World"};
+	puts("\nTesting for str_connect()");
+	printf("The strings are ");
+	for (int i = 0; i < 4 ; ++i) printf("%s ", s[i]);
+	printf("\nThe connected string is %s\n", str_connect(s, 4, '-'));
+}
+
+void test_rm_empties() {
+        char* s[6] = {"Hello", "World", " ", " ", "Steph", NULL};
+        //char** s_ptr = s;
+	puts("\nTesting for rm_empties()");
+        printf("The strings are ");
+        for (int i = 0; i < 5; ++i) printf("%s ", s[i]);
+        rm_empties(s);
+	printf("\nThe new string is ");
+	for (int i = 0; i < 5; ++i) printf("%s ", s[i]);
+	puts(" ");
+}
+
+
 
