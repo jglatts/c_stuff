@@ -1,3 +1,9 @@
+#include "string.h"
+#include <stdlib.h>
+
+#define MAX_STR_SIZE 100
+
+void rm_empties(char **words) {
         int index = 0, arr_len = 0;
         int word_pos[MAX_STR_SIZE] = {-1};
         int space_pos[MAX_STR_SIZE] = {-1};
@@ -38,3 +44,4 @@
         for (int x = word_count; x < arr_len; ++x) {
                 words[x] = "\0";
         }
+}
