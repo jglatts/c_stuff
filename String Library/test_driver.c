@@ -17,6 +17,9 @@ void test_capitalize();
 void test_strcmp_ign_case();
 void test_take_last();
 void test_dedup();
+void test_pad();  // needs source file
+void test_ends_with_ignore_case();
+void test_repeat();
 
 int main() {
 	test_all_letters();
@@ -35,6 +38,9 @@ int main() {
 	test_strcmp_ign_case();
 	test_take_last();
 	test_dedup();
+	//test_pad();
+	test_ends_with_ignore_case();
+	test_repeat();
 	return 0;
 }
 
@@ -170,7 +176,30 @@ void test_take_last() {
 
 void test_dedup() {
         char s[] = "hellllo";
-        puts("\nTest for dedub()");
+        puts("\nTest for dedup()");
         printf("String before is %s\n", s);
         printf("String after is %s\n", dedup(s));
 }
+
+/*
+void test_pad() {
+
+}
+*/
+
+void test_ends_with_ignore_case() {
+	char s1[] = "Coding";
+	char s2[] = "ing";
+	puts("\nTesting for ends_with_ignore_case()");
+	printf("The strings are %s and %s\n", s1, s2);
+	if (ends_with_ignore_case(s1, s2)) printf("The string %s is a suffix of %s\n", s2, s1);
+	else ("The string %s is not a suffix of %s\n", s2, s1);
+}
+
+void test_repeat() {
+	char s[] = "hello";
+	puts("\nTesting for repeat()");
+	printf("The original string is %s\n", s);
+	printf("The repeated string is %s\n", repeat(s, 5, '-'));
+}
+

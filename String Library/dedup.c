@@ -1,31 +1,26 @@
 #include "string.h"
 #include <stdlib.h>
 
-char *dedup(char *s) {
-	int occurences[26] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	int s_len = 0;
-	for (s_len; s[s_len] != '\0'; ++s_len) { }
-	char *new_s = (char *)malloc(s_len + 1);
-	int index = 0;
+char* dedup(char* s) {
+	int alph_occurences[26] = {0};
+	int len = 0, index = 0;
+	for (len; s[len] != '\0'; ++len) { }
+	char* ret_str = (char *)malloc(len + 1);
 	while (*s) {
 		if ((*s >= 65) && (*s <= 90)) {
-			// uppercase characters
-			if (occurences[*s-65] == 0) {
-				new_s[index] = *s;
-                		occurences[*s-65] += 1;
-				index++;
+			if (alph_occurences[*s-65] == 0) {
+				ret_str[index++] = *s;
+                		alph_occurences[*s-65] += 1;
 			}
 		}
 		if ((*s >= 97) && (*s <= 122)) {
-			// lowercase characters
-			if (occurences[*s-97] == 0) {
-				new_s[index] = *s;
-                		occurences[*s-97] += 1;
-				index++;
+			if (alph_occurences[*s-97] == 0) {
+				ret_str[index++] = *s;
+                		alph_occurences[*s-97] += 1;
 			}
 		}
 		s++;
 	}
-    	new_s[s_len + 1] = '\0';
-    	return new_s;
+    	ret_str[len + 1] = '\0';
+    	return ret_str;
 }
