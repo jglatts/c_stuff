@@ -7,7 +7,7 @@
 #define RESET  "\033[0m"
 #define USE_VERBOSE
 
-typedef struct Queue {
+typedef struct {
         int queue[MAX_QUEUE_SIZE];
         int size;
         int index;
