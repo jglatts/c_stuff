@@ -3,8 +3,7 @@
 
 char* dedup(char* s) {
 	int alph_occurences[26] = {0};
-	int len = 0, index = 0;
-	for (len; s[len] != '\0'; ++len) { }
+	int len = _strlen(s), index = 0;
 	char* ret_str = (char *)malloc(len + 1);
 	while (*s) {
 		if ((*s >= 65) && (*s <= 90)) {
