@@ -43,7 +43,7 @@ void test_queue() {
         for (int i = 0; i < n; ++i) {
                 enqueue(q, rand() % n);
         }
-        printf("\n%s", "Items on stack: ");
+        printf("\n%s", "Items on queue: ");
         while (!is_empty(q)) {
                 printf("%d ", dequeue(q));
         }
