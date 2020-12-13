@@ -27,6 +27,13 @@ int pop(Stack* s) {
         return s->stack[s->size];
 }
 
+int stack_contains(Stack* s, int n) {
+        for (int i = 0; i < s->size; ++i) {
+                if (s->stack[i] == n) return 1;
+        }
+        return 0;
+}
+
 int is_empty(Stack* s) {
         return s->size == 0;
 }
