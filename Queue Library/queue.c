@@ -35,7 +35,7 @@ int is_empty(Queue* q) {
 
 void test_queue() {
         Queue* q = make_new_queue();
-        int n = 0, c = 0;
+        int n = 0, c = 1;
         srand((unsigned)time(NULL));
         printf("------------JDG STACK------------\n");
         printf("How Many Elements In The Queue? -> ");
@@ -46,9 +46,7 @@ void test_queue() {
                 printf(GREEN);
                 printf("%5d", dequeue(q));
                 printf(RESET);
-                //if (c == 0) continue;
-                c++;
-                if (c % 10 == 0) puts("");
+                if (c++ % 10 == 0) puts("");
         }
         puts("");
 }
