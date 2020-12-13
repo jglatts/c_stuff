@@ -15,6 +15,7 @@ Stack* make_new_stack(int);
 void push(Stack*, int);
 void test_stack();
 int pop(Stack*);
+int stack_contains(Stack*, int);
 int is_empty(Stack*);
 
 #endif // STACK_H
