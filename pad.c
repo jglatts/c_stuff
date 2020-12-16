@@ -3,9 +3,8 @@
 
 char* pad(char* s, int d) {
 	if (s == NULL) return NULL;
-	int len = 0;
+	int len = _strlen(s);
 	char* ret_str = NULL;
-	for (len; s[len] != '\0'; ++len) { }
 	if (len == d) {
 		int i;
 		char* copy = (char*)malloc((len+1) * sizeof(char));
