@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #define MAX_TUBES          100
@@ -90,20 +91,14 @@ void InitGame(void)
 	pause = false;
 }
 
-void OffsetTubes(int* btm_y, int* diff, int* offset) {
+void OffsetTubes(int* btm_y, int* diff, int* offset) 
+{
 	*btm_y = GetRandomValue(300, 370);
-	if (*btm_y < 350) {
-		*diff = 350 - *btm_y;
-		*offset = 150 + *diff;
-	}
-	else if (*btm_y > 350) {
-		*diff = *btm_y - 350;
-		*offset = 150 - *diff;
-	}
-	else {
-		*diff = 0;
-		*offset = 150;
-	}
+	*diff = abs(350 - *btm_y);
+	if (*btm_y < 350)      *offset = 150 + *diff;
+	else if (*btm_y > 350) *offset = 150 - *diff;
+	else                   *offset = 150;
+	
 }
 
 void UpdateGame(void)
