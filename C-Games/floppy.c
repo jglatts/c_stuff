@@ -43,7 +43,7 @@ static void UpdateGame(void);       // Update game (one frame)
 static void DrawGame(void);         // Draw game (one frame)
 static void UnloadGame(void);       // Unload game
 static void UpdateDrawFrame(void);  // Update and Draw (one frame)
-bool IsValInRange(int);		        // Check if the Y val is inside the bounding box
+static void OffsetTubes(int*, int*, int*);			// Offset the tubes so they fit in the bounding box
 
 int main(void)
 {
@@ -72,14 +72,16 @@ void InitGame(void)
 	}
 	for (int i = 0; i < MAX_TUBES * 2; i += 2)
 	{
+		int btm_y, diff, offset;
+		OffsetTubes(&btm_y, &diff, &offset);
 		tubes[i].rec.x = tubesPosTop[i / 4].x;
 		tubes[i].rec.y = tubesPosTop[i / 4].y;
 		tubes[i].rec.width = TUBES_WIDTH;
-		tubes[i].rec.height = GetRandomValue(150, 250);
+		tubes[i].rec.height = GetRandomValue(100, 170);
 		tubes[i + 1].rec.x = tubesPosTop[i / 4].x;
-		tubes[i + 1].rec.y = 350;
+		tubes[i + 1].rec.y = btm_y;
 		tubes[i + 1].rec.width = TUBES_WIDTH;
-		tubes[i + 1].rec.height = 150;
+		tubes[i + 1].rec.height = offset;	
 		tubes[i / 4].active = true;
 	}
 	score = 0;
@@ -88,9 +90,20 @@ void InitGame(void)
 	pause = false;
 }
 
-bool IsValInRange(int val) 
-{
-	return (val >= 50 && val <= 500) || (val <= -50 && val >= -500);
+void OffsetTubes(int* btm_y, int* diff, int* offset) {
+	*btm_y = GetRandomValue(300, 370);
+	if (*btm_y < 350) {
+		*diff = 350 - *btm_y;
+		*offset = 150 + *diff;
+	}
+	else if (*btm_y > 350) {
+		*diff = *btm_y - 350;
+		*offset = 150 - *diff;
+	}
+	else {
+		*diff = 0;
+		*offset = 150;
+	}
 }
 
 void UpdateGame(void)
@@ -114,8 +127,8 @@ void UpdateGame(void)
 				if (CheckCollisionCircleRec(floppy.position, floppy.radius, tubes[i].rec))
 				{
 					strcpy(floppyMsg, "Floppy Did Not Make It :(");
-					gameOver = true;
-					pause = false;
+					//gameOver = true;
+					//pause = false;
 				}
 				else if ((tubesPosTop[i / 2].x < floppy.position.x) && tubes[i / 2].active && !gameOver)
 				{
@@ -164,6 +177,7 @@ void DrawGame(void)
 		DrawText(floppyMsg, 20, 100, 20, LIGHTGRAY);
 		if (pause) DrawText("GAME PAUSED", screenWidth / 2 - MeasureText("GAME PAUSED", 40) / 2, screenHeight / 2 - 40, 40, GRAY);
 	}
+	// call a fun() here to display the game options 
 	else DrawText("PRESS [ENTER] TO PLAY AGAIN", GetScreenWidth() / 2 - MeasureText("PRESS [ENTER] TO PLAY AGAIN", 20) / 2, GetScreenHeight() / 2 - 50, 20, GRAY);
 	EndDrawing();
 }
