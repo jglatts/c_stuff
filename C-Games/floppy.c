@@ -56,8 +56,7 @@ int main(void)
 	// Main game loop
 	while (!WindowShouldClose()) 
 	{
-		if (menuClosed) UpdateDrawFrame();
-		else MainMenu();
+		menuClosed ? UpdateDrawFrame() : MainMenu();
 	}
 	UnloadGame();         
 	CloseWindow();        
