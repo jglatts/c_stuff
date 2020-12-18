@@ -38,13 +38,15 @@ static BoundingBox bb = { min, max };
 static char floppyMsg[50];
 static int tubesSpeedX = 0;
 static bool superfx = false;
+static bool menuClosed = false;
 
-static void InitGame(void);         // Initialize game
-static void UpdateGame(void);       // Update game (one frame)
-static void DrawGame(void);         // Draw game (one frame)
-static void UnloadGame(void);       // Unload game
-static void UpdateDrawFrame(void);  // Update and Draw (one frame)
-static void OffsetTubes(int*, int*, int*);			// Offset the tubes so they fit in the bounding box
+static void InitGame(void);                // Initialize game
+static void UpdateGame(void);              // Update game (one frame)
+static void DrawGame(void);                // Draw game (one frame)
+static void UnloadGame(void);			   // Unload game
+static void UpdateDrawFrame(void);         // Update and Draw (one frame)
+static void MainMenu(void);				   // Main menu prompt 
+static void OffsetTubes(int*, int*, int*); // Offset the tubes so they fit in the bounding box
 
 int main(void)
 {
@@ -54,7 +56,8 @@ int main(void)
 	// Main game loop
 	while (!WindowShouldClose()) 
 	{
-		UpdateDrawFrame();
+		if (menuClosed) UpdateDrawFrame();
+		else MainMenu();
 	}
 	UnloadGame();         
 	CloseWindow();        
@@ -91,6 +94,7 @@ void InitGame(void)
 	pause = false;
 }
 
+// offset the tubes 
 void OffsetTubes(int* btm_y, int* diff, int* offset) 
 {
 	*btm_y = GetRandomValue(300, 370);
@@ -98,7 +102,6 @@ void OffsetTubes(int* btm_y, int* diff, int* offset)
 	if (*btm_y < 350)      *offset = 150 + *diff;
 	else if (*btm_y > 350) *offset = 150 - *diff;
 	else                   *offset = 150;
-	
 }
 
 void UpdateGame(void)
@@ -115,6 +118,7 @@ void UpdateGame(void)
 				tubes[i + 1].rec.x = tubesPosTop[i / 2].x;
 			}
 			if (IsKeyDown(KEY_SPACE) && !gameOver) floppy.position.y -= 3;
+			else if (IsKeyDown(KEY_ENTER) && !gameOver) floppy.position.y += 5;
 			else floppy.position.y += 1;
 			// Check Collisions
 			for (int i = 0; i < MAX_TUBES * 2; i++)
@@ -174,6 +178,16 @@ void DrawGame(void)
 	}
 	// call a fun() here to display the game options 
 	else DrawText("PRESS [ENTER] TO PLAY AGAIN", GetScreenWidth() / 2 - MeasureText("PRESS [ENTER] TO PLAY AGAIN", 20) / 2, GetScreenHeight() / 2 - 50, 20, GRAY);
+	EndDrawing();
+}
+
+void MainMenu() 
+{
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+	DrawText("JDG Flappy", GetScreenWidth() / 2 - MeasureText("JDG Flappy", 20) / 2, GetScreenHeight() / 2 - 85, 20, DARKBLUE);
+	DrawText("PRESS [ENTER] TO PLAY", GetScreenWidth() / 2 - MeasureText("PRESS [ENTER] TO PLAY", 20) / 2, GetScreenHeight() / 2 - 50, 20, GRAY);
+	if (IsKeyPressed(KEY_ENTER)) menuClosed = true;
 	EndDrawing();
 }
 
