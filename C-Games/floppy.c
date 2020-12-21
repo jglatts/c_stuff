@@ -35,15 +35,19 @@ static Vector2 tubesPosBtm[MAX_TUBES] = { 0 };
 static Vector3 min = { 50.0, 50.0, 0.0 };
 static Vector3 max = { screenWidth - 50.0, screenHeight - 50.0, 0.0 };
 static BoundingBox bb = { min, max };
+static Image image;
+static Texture2D texture;
+static Vector2 imgPosition;
+
 static char floppyMsg[50];
 static int tubesSpeedX = 0;
 static bool superfx = false;
 static bool menuClosed = false;
-
 static void InitGame(void);                // Initialize game
 static void UpdateGame(void);              // Update game (one frame)
 static void DrawGame(void);                // Draw game (one frame)
 static void UnloadGame(void);			   // Unload game
+static void UnloadGameImages(const char*);				   // Unload images
 static void UpdateDrawFrame(void);         // Update and Draw (one frame)
 static void MainMenu(void);				   // Main menu prompt 
 static void OffsetTubes(int*, int*, int*); // Offset the tubes so they fit in the bounding box
@@ -51,6 +55,8 @@ static void OffsetTubes(int*, int*, int*); // Offset the tubes so they fit in th
 int main(void)
 {
 	InitWindow(screenWidth, screenHeight, "sample game: floppy");
+	// Image stuff must be called after InitWindow();
+	UnloadGameImages("birds.png");
 	InitGame();
 	SetTargetFPS(60);
 	// Main game loop
@@ -61,6 +67,13 @@ int main(void)
 	UnloadGame();         
 	CloseWindow();        
 	return 0;
+}
+
+void UnloadGameImages(const char* fileName) {
+	image = LoadImage(fileName);
+	ImageResize(&image, 350, 200);
+	texture = LoadTextureFromImage(image);
+	imgPosition = { (float)(screenWidth / 2 - texture.width / 2), (float)(screenHeight / 2 - texture.height / 2 + 75) };
 }
 
 void InitGame(void)
@@ -125,8 +138,8 @@ void UpdateGame(void)
 				if (CheckCollisionCircleRec(floppy.position, floppy.radius, tubes[i].rec))
 				{
 					strcpy(floppyMsg, "Floppy Did Not Make It :(");
-					//gameOver = true;
-					//pause = false;
+					gameOver = true;
+					pause = false;
 				}
 				else if ((tubesPosTop[i / 2].x < floppy.position.x) && tubes[i / 2].active && !gameOver)
 				{
@@ -184,6 +197,7 @@ void MainMenu()
 {
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
+	DrawTextureV(texture, imgPosition, WHITE);
 	DrawText("JDG Flappy", GetScreenWidth() / 2 - MeasureText("JDG Flappy", 20) / 2, GetScreenHeight() / 2 - 85, 20, DARKBLUE);
 	DrawText("PRESS [ENTER] TO PLAY", GetScreenWidth() / 2 - MeasureText("PRESS [ENTER] TO PLAY", 20) / 2, GetScreenHeight() / 2 - 50, 20, GRAY);
 	if (IsKeyPressed(KEY_ENTER)) menuClosed = true;
