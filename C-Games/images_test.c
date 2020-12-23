@@ -1,5 +1,6 @@
 /*
   Test program using images with raylib 
+  Tested/Compiled on Windows 10 Machine with Windows C/C++ Compiler
 */
 #include "raylib.h"
 #include <stdio.h>
@@ -16,8 +17,8 @@ Texture2D texture;
 Texture2D textureInverted;
 Vector2   imgPosition;
 Vector2   imgPositionInverted;
-int const screenWidth = 1000;
-int const screenHeight = 500;
+const int screenWidth = 1000;
+const int screenHeight = 500;
 int       imgClickCount = 0;
 
 int main(void) {
