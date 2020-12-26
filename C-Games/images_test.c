@@ -21,6 +21,7 @@ static void InitBigAssTubes();
 static void ResetRayScreen();
 static void DrawRandomTubes();
 static void DrawGameImages();
+static void DrawInfoText();
 static void UnLoadGameImages(const char*);
 static void UnLoadGameImagesInverted(const char*);
 static void FlipImage(void);
@@ -52,13 +53,11 @@ int main(void) {
 			gamePlayer.yPos -= 15;
 			imgClickCount++;
 		}
-		else {
-			gamePlayer.yPos += 2;
-			imgClickCount++;
-		}
+		else gamePlayer.yPos += 2;
 		ResetRayScreen();
 		DrawGameImages();
 		DrawRandomTubes();
+		DrawInfoText();
 		EndDrawing();
 	}
 	UnloadImage(image);
@@ -101,6 +100,12 @@ void DrawRandomTubes() {
 	}
 }
 
+void DrawInfoText() {
+	const char* infoStr = TextFormat("Total Clicks: %03i", imgClickCount);
+	DrawText("JDG 2020", 600, 300, 60, GRAY);
+	DrawText(infoStr, 505, 360, 50, GRAY);
+}
+
 void UnLoadGameImages(const char* fileName) {
 	image = LoadImage(fileName);
 	ImageFormat(&image, UNCOMPRESSED_R8G8B8A8);
@@ -118,7 +123,7 @@ void UnLoadGameImagesInverted(const char* fileName) {
 	imgPositionInverted = { (float)(screenWidth / 2 - textureInverted.width / 2), (float)(screenHeight / 2 - textureInverted.height / 2 + 65) };
 }
 
-static void FlipImage() {
+void FlipImage() {
 	UnloadImage(image);
 	image = LoadImage("birds.png");
 	ImageResize(&image, 350, 200);
