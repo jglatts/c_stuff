@@ -37,7 +37,7 @@ Tubes     tubes[MAX_TUBES * 2] = { 0 };
 Vector2   imgPositionInverted = { 0 };
 const int screenWidth = 1000;
 const int screenHeight = 500;
-int		  tubeSpeed = 70;
+int       tubeSpeed = 70;
 int       imgClickCount = 0;
 
 int main(void) {
