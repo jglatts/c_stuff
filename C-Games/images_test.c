@@ -11,13 +11,13 @@ typedef struct Tubes {
 } Tubes;
 
 typedef struct GameImage {
-	Image   playerImage;
 	Vector2 imgPosition;
 	float   xPos;
 	float   yPos;
 } GameImage;
 
 static void InitBigAssTubes();
+static void UpdateGame();
 static void ResetRayScreen();
 static void DrawRandomTubes();
 static void DrawGameImages();
@@ -48,12 +48,7 @@ int main(void) {
 	SetTargetFPS(60);
 	// Main Game Loop 
 	while (!WindowShouldClose()) {
-		if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_ENTER)) {
-			FlipImage();
-			gamePlayer.yPos -= 15;
-			imgClickCount++;
-		}
-		else gamePlayer.yPos += 2;
+		UpdateGame();
 		ResetRayScreen();
 		DrawGameImages();
 		DrawRandomTubes();
@@ -78,23 +73,40 @@ void InitBigAssTubes() {
 	}
 }
 
+void UpdateGame() {
+	// add collision detection logic
+	if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_ENTER)) {
+		FlipImage();
+		gamePlayer.yPos -= 15;
+		gamePlayer.xPos += 1;
+		imgClickCount++;
+	}
+	else {
+		gamePlayer.yPos += 3;
+		gamePlayer.xPos -= 0.75;
+	}
+}
+
 void ResetRayScreen() {
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
 }
 
 void DrawGameImages() {
-	for (int i = 0; i < MAX_TUBES; i++) tubesPos[i].x -= tubeSpeed;
-	for (int i = 0; i < MAX_TUBES * 2; i += 2) {
-		tubes[i].rec.x = tubesPos[i / 2].x;
-	}
 	gamePlayer.imgPosition = { gamePlayer.xPos, gamePlayer.yPos };
 	DrawTextureV(texture, gamePlayer.imgPosition, WHITE);
 	//DrawTextureV(textureInverted, imgPositionInverted, WHITE);
 }
 
 void DrawRandomTubes() {
-	//DrawRectangle(100, 0, 50, GetRandomValue(300, 350), BLACK);
+	// set speed
+	for (int i = 0; i < MAX_TUBES; i++) {
+		tubesPos[i].x -= tubeSpeed;
+	}
+	// set position
+	for (int i = 0; i < MAX_TUBES * 2; i += 2) {
+		tubes[i].rec.x = tubesPos[i / 2].x;
+	}
 	for (int i = 0; i < MAX_TUBES; i++) {
 		DrawRectangle(tubes[i * 2].rec.x, tubes[i * 2].rec.y, tubes[i * 2].rec.width, tubes[i * 2].rec.height, PURPLE);
 	}
@@ -109,9 +121,11 @@ void DrawInfoText() {
 void UnLoadGameImages(const char* fileName) {
 	image = LoadImage(fileName);
 	ImageFormat(&image, UNCOMPRESSED_R8G8B8A8);
-	ImageResize(&image, 350, 200);
+	ImageResize(&image, 150, 100);
 	texture = LoadTextureFromImage(image);
-	gamePlayer.imgPosition = { (float)(screenWidth / 2 - texture.width / 2), (float)(screenHeight / 2 - texture.height / 2 - 100) };
+	gamePlayer.xPos = 200;
+	gamePlayer.yPos = (float)(screenHeight / 2 - texture.height / 2 - 100);
+	gamePlayer.imgPosition = { gamePlayer.xPos, gamePlayer.yPos };
 }
 
 void UnLoadGameImagesInverted(const char* fileName) {
@@ -126,7 +140,7 @@ void UnLoadGameImagesInverted(const char* fileName) {
 void FlipImage() {
 	UnloadImage(image);
 	image = LoadImage("birds.png");
-	ImageResize(&image, 350, 200);
+	ImageResize(&image, 150, 100);
 	if (imgClickCount % 2 == 0) {
 		ImageFlipHorizontal(&image);
 		ImageFlipVertical(&image);
