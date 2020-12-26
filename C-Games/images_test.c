@@ -1,40 +1,64 @@
-/*
-  Test program using images with raylib 
-  Tested/Compiled on Windows 10 Machine with Windows C/C++ Compiler
-*/
 #include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
+#define MAX_TUBES 2000
+
+typedef struct Tubes {
+	Rectangle rec;
+	Color color;
+} Tubes;
+
+typedef struct GameImage {
+	Image   playerImage;
+	Vector2 imgPosition;
+	float   xPos;
+	float   yPos;
+} GameImage;
+
+static void InitBigAssTubes();
+static void ResetRayScreen();
+static void DrawRandomTubes();
+static void DrawGameImages();
 static void UnLoadGameImages(const char*);
 static void UnLoadGameImagesInverted(const char*);
 static void FlipImage(void);
-static bool IsMouseClickedOnImage(void);
 
-Image     image;
-Image     imageInverted;
-Texture2D texture;
-Texture2D textureInverted;
-Vector2   imgPosition;
-Vector2   imgPositionInverted;
+GameImage gamePlayer = { 0 };
+Image     image = { 0 };
+Image     imageInverted = { 0 };
+Texture2D texture = { 0 };
+Texture2D textureInverted = { 0 };
+Vector2   tubesPos[MAX_TUBES] = { 0 };
+Tubes     tubes[MAX_TUBES * 2] = { 0 };
+/*Vector2 imgPosition = { 0 };*/
+Vector2   imgPositionInverted = { 0 };
 const int screenWidth = 1000;
 const int screenHeight = 500;
+int		  tubeSpeed = 70;
 int       imgClickCount = 0;
 
 int main(void) {
 	InitWindow(screenWidth, screenHeight, "JDG 2020");
+	InitBigAssTubes();
 	UnLoadGameImages("birds.png");
 	UnLoadGameImagesInverted("birds.png");
 	SetTargetFPS(60);
+	// Main Game Loop 
 	while (!WindowShouldClose()) {
-		if (IsMouseClickedOnImage()) {
+		if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_ENTER)) {
 			FlipImage();
+			gamePlayer.yPos -= 15;
 			imgClickCount++;
 		}
-		BeginDrawing();
-		ClearBackground(RAYWHITE);
-		DrawTextureV(texture, imgPosition, WHITE);
-		DrawTextureV(textureInverted, imgPositionInverted, WHITE);
+		else {
+			gamePlayer.yPos += 2;
+			imgClickCount++;
+		}
+		ResetRayScreen();
+		DrawGameImages();
+		DrawRandomTubes();
 		EndDrawing();
 	}
 	UnloadImage(image);
@@ -42,12 +66,47 @@ int main(void) {
 	return 0;
 }
 
+void InitBigAssTubes() {
+	// set the position of the tubes 
+	for (int i = 0; i < MAX_TUBES; i++) {
+		tubesPos[i].x = 400 + 180 * i;
+	}
+	for (int i = 0; i < MAX_TUBES * 2; i += 2) {
+		tubes[i].rec.x = tubesPos[i / 4].x;
+		tubes[i].rec.y = tubesPos[i / 4].y;
+		tubes[i].rec.width = 200;
+		tubes[i].rec.height = GetRandomValue(100, 170);
+	}
+}
+
+void ResetRayScreen() {
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+}
+
+void DrawGameImages() {
+	for (int i = 0; i < MAX_TUBES; i++) tubesPos[i].x -= tubeSpeed;
+	for (int i = 0; i < MAX_TUBES * 2; i += 2) {
+		tubes[i].rec.x = tubesPos[i / 2].x;
+	}
+	gamePlayer.imgPosition = { gamePlayer.xPos, gamePlayer.yPos };
+	DrawTextureV(texture, gamePlayer.imgPosition, WHITE);
+	//DrawTextureV(textureInverted, imgPositionInverted, WHITE);
+}
+
+void DrawRandomTubes() {
+	//DrawRectangle(100, 0, 50, GetRandomValue(300, 350), BLACK);
+	for (int i = 0; i < MAX_TUBES; i++) {
+		DrawRectangle(tubes[i * 2].rec.x, tubes[i * 2].rec.y, tubes[i * 2].rec.width, tubes[i * 2].rec.height, PURPLE);
+	}
+}
+
 void UnLoadGameImages(const char* fileName) {
 	image = LoadImage(fileName);
 	ImageFormat(&image, UNCOMPRESSED_R8G8B8A8);
 	ImageResize(&image, 350, 200);
 	texture = LoadTextureFromImage(image);
-	imgPosition = { (float)(screenWidth / 2 - texture.width / 2), (float)(screenHeight / 2 - texture.height / 2 - 100) };
+	gamePlayer.imgPosition = { (float)(screenWidth / 2 - texture.width / 2), (float)(screenHeight / 2 - texture.height / 2 - 100) };
 }
 
 void UnLoadGameImagesInverted(const char* fileName) {
@@ -70,13 +129,4 @@ static void FlipImage() {
 	UpdateTexture(texture, GetImageData(image));
 	puts("Clicked on Image");
 	printf("imgClickCount = %d\n", imgClickCount);
-}
-
-bool IsMouseClickedOnImage(void) {
-	size_t mouseX = GetMouseX();
-	size_t mouseY = GetMouseY();
-	if (!IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) return false;
-	if (!(mouseX >= 341 && mouseX <= 656)) return false;
-	if (!(mouseY >= 50 && mouseY <= 250)) return false;
-	return true;
 }
