@@ -37,7 +37,7 @@ Tubes     tubes[MAX_TUBES * 2] = { 0 };
 Vector2   imgPositionInverted = { 0 };
 const int screenWidth = 1000;
 const int screenHeight = 500;
-int       tubeSpeed = 70;
+int		  tubeSpeed = 70;
 int       imgClickCount = 0;
 
 int main(void) {
@@ -74,16 +74,15 @@ void InitBigAssTubes() {
 }
 
 void UpdateGame() {
-	// add collision detection logic
 	if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_ENTER)) {
 		FlipImage();
 		gamePlayer.yPos -= 15;
-		gamePlayer.xPos += 1;
+		gamePlayer.xPos += 0.75;
 		imgClickCount++;
 	}
 	else {
 		gamePlayer.yPos += 3;
-		gamePlayer.xPos -= 0.75;
+		gamePlayer.xPos -= 0.1;
 	}
 }
 
