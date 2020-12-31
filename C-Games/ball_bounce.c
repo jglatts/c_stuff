@@ -10,7 +10,7 @@
 #define BAR_WIDTH	  90
 #define BAR_HEIGHT	  10
 #define PLAYER_RADIUS 20
-#define MAX_BARS      10
+#define MAX_BARS      50
 
 typedef struct Bars
 {
@@ -27,8 +27,9 @@ typedef struct BallPlayer
 	int radius;
 } BallPlayer;
 
-Bars allBars[10] = {0};
+Bars allBars[MAX_BARS] = {0};
 BallPlayer player = {0};
+bool gameStarted = false;
 
 void InitBounceGame();
 void UpdateBounceGame();
@@ -73,6 +74,19 @@ void InitBounceGame()
 
 void UpdateBounceGame() 
 {
+	if (gameStarted)
+	{
+		for (int i = 0; i < MAX_BARS; ++i)
+		{
+			Vector2 v = { player.position.x , player.position.y };
+			Rectangle r = { allBars[i].posX, allBars[i].posY, BAR_WIDTH, BAR_HEIGHT };
+			if (CheckCollisionCircleRec(v, PLAYER_RADIUS, r))
+			{
+				// add game logic here
+				exit(1);
+			}
+		}
+	}
 	CheckSpaceKey();
 	CheckLeftRight();
 }
@@ -81,6 +95,7 @@ void CheckSpaceKey()
 {
 	if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_SPACE))
 	{
+		gameStarted = true;
 		player.position.y -= 10;
 	}
 	else
@@ -93,10 +108,12 @@ void CheckLeftRight()
 {
 	if (IsKeyPressed(KEY_LEFT) || IsKeyDown(KEY_LEFT))
 	{
+		gameStarted = true;
 		player.position.x -= 5;
 	}
 	if (IsKeyPressed(KEY_RIGHT) || IsKeyDown(KEY_RIGHT))
 	{
+		gameStarted = true;
 		player.position.x += 5;
 	}
 }
