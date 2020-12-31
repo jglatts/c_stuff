@@ -47,7 +47,6 @@ int main(void)
 	// Main game loop
 	while (!WindowShouldClose())
 	{
-
 		ResetScreen();
 		UpdateBounceGame();
 		DrawBounceGame();
