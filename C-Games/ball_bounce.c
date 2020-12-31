@@ -36,6 +36,7 @@ void UpdateBounceGame();
 void DrawBounceGame();
 void CheckSpaceKey();
 void CheckLeftRight();
+void CheckGameCollison();
 void ResetScreen();
 
 int main(void)
@@ -76,19 +77,24 @@ void UpdateBounceGame()
 {
 	if (gameStarted)
 	{
-		for (int i = 0; i < MAX_BARS; ++i)
-		{
-			Vector2 v = { player.position.x , player.position.y };
-			Rectangle r = { allBars[i].posX, allBars[i].posY, BAR_WIDTH, BAR_HEIGHT };
-			if (CheckCollisionCircleRec(v, PLAYER_RADIUS, r))
-			{
-				// add game logic here
-				exit(1);
-			}
-		}
+		CheckGameCollison();
 	}
 	CheckSpaceKey();
 	CheckLeftRight();
+}
+
+void CheckGameCollison()
+{
+	for (int i = 0; i < MAX_BARS; ++i)
+	{
+		Vector2 v = { player.position.x , player.position.y };
+		Rectangle r = { allBars[i].posX, allBars[i].posY, BAR_WIDTH, BAR_HEIGHT };
+		if (CheckCollisionCircleRec(v, PLAYER_RADIUS, r))
+		{
+			// add game logic here
+			exit(1);
+		}
+	}
 }
 
 void CheckSpaceKey()
