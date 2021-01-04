@@ -7,8 +7,8 @@
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 450
-#define BAR_WIDTH	  90
-#define BAR_HEIGHT	  10
+#define BAR_WIDTH     90
+#define BAR_HEIGHT    10
 #define PLAYER_RADIUS 20
 #define MAX_BARS      32
 
