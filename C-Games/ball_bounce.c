@@ -2,6 +2,7 @@
 	...Work in Progress...
 */
 #include "raylib.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
@@ -10,7 +11,7 @@
 #define BAR_WIDTH     90
 #define BAR_HEIGHT    10
 #define PLAYER_RADIUS 20
-#define MAX_BARS      32
+#define MAX_BARS      15
 
 typedef struct Bars
 {
@@ -29,14 +30,17 @@ typedef struct BallPlayer
 Bars allBars[MAX_BARS] = {0};
 BallPlayer player = {0};
 bool gameStarted = false;
+bool gameWon = false;
 
 void InitBounceGame();
 void UpdateBounceGame();
 void DrawBounceGame();
+void DrawWinningScreen();
 void CheckSpaceKey();
 void CheckLeftRight();
 void CheckGameCollison();
 void CheckGameStart();
+void CheckGameWin();
 void ResetScreen();
 
 int main(void)
@@ -47,11 +51,15 @@ int main(void)
 	// Main game loop
 	while (!WindowShouldClose())
 	{
-		ResetScreen();
-		UpdateBounceGame();
-		DrawBounceGame();
-		EndDrawing();
-		if (!gameStarted) CheckGameStart();
+		if (!gameWon) 
+		{
+			ResetScreen();
+			UpdateBounceGame();
+			DrawBounceGame();
+			EndDrawing();
+			if (!gameStarted) CheckGameStart();
+		}
+		else DrawWinningScreen();	
 	}
 	CloseWindow();
 	return 0;
@@ -90,10 +98,17 @@ void UpdateBounceGame()
 {
 	if (gameStarted)
 	{
+		CheckGameWin();
 		CheckGameCollison();
 	}
 	CheckSpaceKey();
 	CheckLeftRight();
+}
+
+void CheckGameWin()
+{
+	if (player.position.y <= 20) gameWon = true;
+	//printf("PosX : %.3f\nPosY: %.3f\n", player.position.x, player.position.y);
 }
 
 void CheckGameStart()
@@ -109,8 +124,8 @@ void CheckGameCollison()
 		Vector2 v = { player.position.x , player.position.y };
 		if (CheckCollisionCircleRec(v, PLAYER_RADIUS, allBars[i].rec))
 		{
-			// add game logic here
-			exit(1);
+			// add a restart screen
+			//exit(1);
 		}
 	}
 }
@@ -153,6 +168,14 @@ void DrawBounceGame()
 		DrawRectangleRec(allBars[i].rec, BLACK);
 		//DrawRectangle(allBars[i].posX, allBars[i].posY, BAR_WIDTH, BAR_HEIGHT, BLACK);		
 	}
+}
+
+void DrawWinningScreen()
+{
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+	DrawText("Congrats! You've won Ball Bounce!", (SCREEN_WIDTH / 2) - 155, 200, 20, LIGHTGRAY);
+	EndDrawing();
 }
 
 void ResetScreen() 
