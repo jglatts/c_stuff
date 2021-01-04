@@ -8,10 +8,11 @@
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 450
-#define BAR_WIDTH     90
-#define BAR_HEIGHT    10
+#define BAR_WIDTH	  90
+#define BAR_HEIGHT	  10
 #define PLAYER_RADIUS 20
-#define MAX_BARS      15
+#define MAX_BARS      25
+#define MAX_BARS      25
 
 typedef struct Bars
 {
@@ -31,11 +32,13 @@ Bars allBars[MAX_BARS] = {0};
 BallPlayer player = {0};
 bool gameStarted = false;
 bool gameWon = false;
+bool playerCollision = false;
 
 void InitBounceGame();
 void UpdateBounceGame();
 void DrawBounceGame();
 void DrawWinningScreen();
+void DrawRestartScreen();
 void CheckSpaceKey();
 void CheckLeftRight();
 void CheckGameCollison();
@@ -51,7 +54,7 @@ int main(void)
 	// Main game loop
 	while (!WindowShouldClose())
 	{
-		if (!gameWon) 
+		if (!gameWon && !playerCollision)
 		{
 			ResetScreen();
 			UpdateBounceGame();
@@ -59,6 +62,7 @@ int main(void)
 			EndDrawing();
 			if (!gameStarted) CheckGameStart();
 		}
+		else if (playerCollision) DrawRestartScreen();
 		else DrawWinningScreen();	
 	}
 	CloseWindow();
@@ -124,8 +128,7 @@ void CheckGameCollison()
 		Vector2 v = { player.position.x , player.position.y };
 		if (CheckCollisionCircleRec(v, PLAYER_RADIUS, allBars[i].rec))
 		{
-			// add a restart screen
-			//exit(1);
+			playerCollision = true;
 		}
 	}
 }
@@ -174,7 +177,15 @@ void DrawWinningScreen()
 {
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
-	DrawText("Congrats! You've won Ball Bounce!", (SCREEN_WIDTH / 2) - 155, 200, 20, LIGHTGRAY);
+	DrawText("Congrats! You won Bounce Ball!", (SCREEN_WIDTH / 2) - 155, 200, 20, LIGHTGRAY);
+	EndDrawing();
+}
+
+void DrawRestartScreen()
+{
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+	DrawText("Sorry, You lost Bounce Ball :(", (SCREEN_WIDTH / 2) - 155, 200, 20, LIGHTGRAY);
 	EndDrawing();
 }
 
