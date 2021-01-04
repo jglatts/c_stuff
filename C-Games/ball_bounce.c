@@ -10,7 +10,7 @@
 #define BAR_WIDTH	  90
 #define BAR_HEIGHT	  10
 #define PLAYER_RADIUS 20
-#define MAX_BARS      50
+#define MAX_BARS      10
 
 typedef struct Bars
 {
@@ -37,6 +37,7 @@ void DrawBounceGame();
 void CheckSpaceKey();
 void CheckLeftRight();
 void CheckGameCollison();
+void CheckGameStart();
 void ResetScreen();
 
 int main(void)
@@ -51,6 +52,7 @@ int main(void)
 		UpdateBounceGame();
 		DrawBounceGame();
 		EndDrawing();
+		if (!gameStarted) CheckGameStart();
 	}
 	CloseWindow();
 	return 0;
@@ -61,7 +63,7 @@ void InitBounceGame()
 	srand((unsigned)time(NULL));
 	player.radius = PLAYER_RADIUS;
 	player.color = DARKBLUE;
-	player.position = { (float)80 , (float)SCREEN_HEIGHT / 2 - player.radius };
+	player.position = { SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25 };
 	for (int i = 0; i < MAX_BARS; ++i) 
 	{
 		allBars[i].active = false;
@@ -82,6 +84,12 @@ void UpdateBounceGame()
 	CheckLeftRight();
 }
 
+void CheckGameStart()
+{
+	if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_ENTER))
+		gameStarted = true;
+}
+
 void CheckGameCollison()
 {
 	for (int i = 0; i < MAX_BARS; ++i)
@@ -98,28 +106,31 @@ void CheckGameCollison()
 
 void CheckSpaceKey()
 {
-	if (IsKeyPressed(KEY_SPACE) || IsKeyDown(KEY_SPACE))
+	if (gameStarted) 
 	{
-		gameStarted = true;
-		player.position.y -= 10;
-	}
-	else
-	{
-		player.position.y += .25;
+		if (IsKeyDown (KEY_SPACE))
+		{
+			player.position.y -= 10;
+		}
+		else
+		{
+			player.position.y += .75;
+		}
 	}
 }
 
 void CheckLeftRight()
 {
-	if (IsKeyPressed(KEY_LEFT) || IsKeyDown(KEY_LEFT))
+	if (gameStarted)
 	{
-		gameStarted = true;
-		player.position.x -= 5;
-	}
-	if (IsKeyPressed(KEY_RIGHT) || IsKeyDown(KEY_RIGHT))
-	{
-		gameStarted = true;
-		player.position.x += 5;
+		if (IsKeyPressed(KEY_LEFT) || IsKeyDown(KEY_LEFT))
+		{
+			player.position.x -= 5;
+		}
+		if (IsKeyPressed(KEY_RIGHT) || IsKeyDown(KEY_RIGHT))
+		{
+			player.position.x += 5;
+		}
 	}
 }
 
