@@ -10,13 +10,12 @@
 #define BAR_WIDTH	  90
 #define BAR_HEIGHT	  10
 #define PLAYER_RADIUS 20
-#define MAX_BARS      10
+#define MAX_BARS      32
 
 typedef struct Bars
 {
+	Rectangle rec;
 	Color color;
-	int posX;
-	int posY;
 	bool active;
 } Bars;
 
@@ -64,13 +63,26 @@ void InitBounceGame()
 	player.radius = PLAYER_RADIUS;
 	player.color = DARKBLUE;
 	player.position = { SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25 };
-	for (int i = 0; i < MAX_BARS; ++i) 
+	// loop to draw board with no colliding bars
+	while (1) 
 	{
-		allBars[i].active = false;
-		allBars[i].color = BLACK;
-		// add detection so bars don't stack up
-		allBars[i].posX = GetRandomValue(5, 600);
-		allBars[i].posY = GetRandomValue(5, 400);
+		for (int i = 0; i < MAX_BARS; ++i)
+		{
+			allBars[i].active = false;
+			allBars[i].color = BLACK;
+			allBars[i].rec.x = GetRandomValue(5, 600);
+			allBars[i].rec.y = GetRandomValue(5, 400);
+			allBars[i].rec.width = BAR_WIDTH;
+			allBars[i].rec.height = BAR_HEIGHT;
+			if (i > 0)
+			{
+				for (int j = 0; j < i; ++j)
+				{
+					if (CheckCollisionRecs(allBars[i].rec, allBars[j].rec)) break;
+				}
+			}
+		}
+		break;
 	}
 }
 
@@ -95,8 +107,7 @@ void CheckGameCollison()
 	for (int i = 0; i < MAX_BARS; ++i)
 	{
 		Vector2 v = { player.position.x , player.position.y };
-		Rectangle r = { allBars[i].posX, allBars[i].posY, BAR_WIDTH, BAR_HEIGHT };
-		if (CheckCollisionCircleRec(v, PLAYER_RADIUS, r))
+		if (CheckCollisionCircleRec(v, PLAYER_RADIUS, allBars[i].rec))
 		{
 			// add game logic here
 			exit(1);
@@ -139,7 +150,8 @@ void DrawBounceGame()
 	DrawCircle(player.position.x, player.position.y, PLAYER_RADIUS, BLUE);
 	for (int i = 0; i < MAX_BARS; ++i)
 	{
-		DrawRectangle(allBars[i].posX, allBars[i].posY, BAR_WIDTH, BAR_HEIGHT, BLACK);		
+		DrawRectangleRec(allBars[i].rec, BLACK);
+		//DrawRectangle(allBars[i].posX, allBars[i].posY, BAR_WIDTH, BAR_HEIGHT, BLACK);		
 	}
 }
 
