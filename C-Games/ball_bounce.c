@@ -1,6 +1,3 @@
-/*
-	...Work in Progress...
-*/
 #include "raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -163,6 +160,18 @@ void CheckLeftRight()
 	}
 }
 
+void CheckPlayAgain()
+{
+	DrawText("Prees R to restart", (SCREEN_WIDTH / 2) - 100, 150, 20, LIGHTGRAY);
+	if (IsKeyPressed(KEY_R))
+	{
+		player.position = { SCREEN_WIDTH / 2, SCREEN_HEIGHT - 25 };
+		playerCollision = false;
+		if (gameWon) gameWon = false;
+		InitBounceGame();
+	}
+}
+
 void DrawBounceGame()
 {
 	DrawCircle(player.position.x, player.position.y, PLAYER_RADIUS, BLUE);
@@ -178,14 +187,17 @@ void DrawWinningScreen()
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
 	DrawText("Congrats! You won Bounce Ball!", (SCREEN_WIDTH / 2) - 155, 200, 20, LIGHTGRAY);
+	CheckPlayAgain();
 	EndDrawing();
 }
 
 void DrawRestartScreen()
 {
+	// add a loop to check for restart
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
-	DrawText("Sorry, You lost Bounce Ball :(", (SCREEN_WIDTH / 2) - 155, 200, 20, LIGHTGRAY);
+	DrawText("Sorry, You lost Bounce Ball :(", (SCREEN_WIDTH / 2) - 155, 120, 20, LIGHTGRAY);
+	CheckPlayAgain();
 	EndDrawing();
 }
 
