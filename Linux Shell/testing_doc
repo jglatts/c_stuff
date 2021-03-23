@@ -1,0 +1,17 @@
+------------------------------------ JDG Shell Testing ------------------------------------
+
+For testing the shell program, I tested both the interactive and batch modes quite
+extensively. This way I could ensure that both modes would produce the same 
+desired output. I also frequentley checked the output from the bash shell with the same 
+commands I was using, to make sure myshell was producing the same output. This was a huge
+help as I could easily test to make sure all commands worked properly. I also made sure
+the program would not crash, by throwing intentionally invalid commands at it. I also
+used a lot of whitespaces in between the commands to make sure the shell could handle it.
+There are also screenshots in the github repo that shows the various tests. The shell is 
+very solid and can handle quite a lot. There are few minor issues, like running external 
+commands with flags in parrallel will ignore the flags. This is due to the way the
+external command handler is written and would need a fair amount of changes. 
+The shell has no problem running mulitiple built in commands with flags in parrallel, and
+overall is a very sturdy application.  
+
+

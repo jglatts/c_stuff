@@ -1,2 +1,2 @@
-myshell: myshell.c myshell.h
-	gcc -o myshell myshell.c -Wall -Werror
+myshell: myshell.c myshell.h myshell_man.h
+	gcc -g -o myshell myshell.c -Wall -Werror

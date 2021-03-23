@@ -1,0 +1,8 @@
+dir
+echo Hello World Redirected! > o.txt
+cat o.txt | wc -l
+dsnvdcdcd
+ls -al --color >> o.txt
+grep shell < o.txt > g.txt
+help cd
+sdfdsfad

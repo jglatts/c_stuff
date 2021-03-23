@@ -1,0 +1,11 @@
+who
+grep int < myshell.c > out.txt
+dir
+environ
+python test.py &
+echo Hello World! >> out.txt
+ls & ls -al --color & echo Doobies! &
+cat out.txt | grep int
+ls -al --color
+who | wc
+cat out.txt
